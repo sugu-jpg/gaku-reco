@@ -2,13 +2,17 @@
 
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+interface BackButtonProps {
+  className?: string;
+}
+
+export default function BackButton({ className = "" }: BackButtonProps) {
   const router = useRouter();
 
   return (
     <button
       onClick={() => router.back()}
-      className="text-blue-600 hover:underline text-sm"
+      className={className}
     >
       ← 戻る
     </button>

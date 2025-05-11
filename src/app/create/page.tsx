@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { supabase } from "@/lib/supabase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import MapSearchInput from "../components/MapSearchInput";
@@ -21,18 +21,34 @@ export default function CreatePostPage() {
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
 
+  useEffect(() => {
+    const checkLogin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        alert('投稿にはログインが必要です');
+        router.push('/login');
+      }
+    };
+    
+    checkLogin();
+  }, [router]);
+
   const onSubmit = async (data: any) => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    const userId = session?.user.id;
-    const userEmail = session?.user.email;
-    const userName = session?.user.user_metadata?.name || ""; // なければ空文字など
+      if (!session) {
+        alert("投稿するにはログインが必要です");
+        return;
+      }
 
-    const res = await fetch("/api/posts", {
-      method: "POST",
-      body: JSON.stringify({
+      const userId = session?.user.id;
+      const userEmail = session?.user.email;
+      const userName = session?.user.user_metadata?.name || "";
+
+      console.log("送信データ:", {
         ...data,
         userId,
         userEmail,
@@ -41,14 +57,37 @@ export default function CreatePostPage() {
         period: data.period ? Number(data.period) : null,
         lat,
         lng,
-      }),
-    });
+      });
 
-    if (res.ok) {
-      alert("投稿が完了しました！");
-      router.push("/");
-    } else {
-      alert("エラーが発生しました");
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          userId,
+          userEmail,
+          userName,
+          rating: Number(data.rating),
+          period: data.period ? Number(data.period) : null,
+          lat,
+          lng,
+        }),
+      });
+
+      const responseData = await res.json();
+      
+      if (res.ok) {
+        alert("投稿が完了しました！");
+        router.push("/");
+      } else {
+        console.error("APIレスポンスエラー:", responseData);
+        alert(`エラー: ${responseData.error || "不明なエラーが発生しました"}`);
+      }
+    } catch (error) {
+      console.error("投稿送信エラー:", error);
+      alert(`エラーが発生しました: ${error instanceof Error ? error.message : String(error)}`);
     }
   };
 
