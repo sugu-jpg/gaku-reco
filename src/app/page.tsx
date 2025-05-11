@@ -105,6 +105,20 @@ export default async function HomePage() {
         </div>
         <p>© 2025 GakuReco</p>
       </footer>
+
+      {/* 投稿ボタン */}
+      <div className="fixed bottom-6 right-6 z-10">
+        <Link 
+          href="/create" 
+          className="flex items-center justify-center w-14 h-14 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </Link>
+      </div>
+
+      
     </main>
   )
 }
