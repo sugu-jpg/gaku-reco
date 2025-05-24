@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { PostType } from "types/post"
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 
 export default async function HomePage() {
   const popularClasses = await prisma.post.findMany({
@@ -48,16 +49,26 @@ export default async function HomePage() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {popularClasses.map((post: PostType) => (
-              <Link href={`/posts/classes/${post.id}`} key={post.id} className="block p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white">
-                <p className="font-bold text-lg mb-2">{post.title}</p>
-                <div className="flex items-center mb-2">
-                  <div className="text-yellow-500 font-bold">★{post.rating}</div>
-                  <div className="ml-2 text-sm text-gray-600">/ 5.0</div>
-                </div>
-                <p className="text-sm text-gray-500 flex items-center">
-                  <span className="inline-block w-6 h-6 rounded-full bg-gray-200 mr-2"></span>
-                  {post.user?.name}
-                </p>
+              <Link href={`/posts/classes/${post.id}`} key={post.id} className="block">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{post.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center mb-2">
+                      <div className="text-yellow-500 font-bold">★{post.rating}</div>
+                      <div className="ml-2 text-sm text-gray-600">/ 5.0</div>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <div className="text-sm text-gray-500 flex items-center">
+                      <div className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center mr-2 font-medium">
+                        {post.user?.name?.charAt(0) || "?"}
+                      </div>
+                      {post.user?.name}
+                    </div>
+                  </CardFooter>
+                </Card>
               </Link>
             ))}
           </div>
@@ -71,16 +82,26 @@ export default async function HomePage() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {popularFoods.map((post: PostType) => (
-              <Link href={`/posts/foods/${post.id}`} key={post.id} className="block p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white">
-                <p className="font-bold text-lg mb-2">{post.title}</p>
-                <div className="flex items-center mb-2">
-                  <div className="text-yellow-500 font-bold">★{post.rating}</div>
-                  <div className="ml-2 text-sm text-gray-600">/ 5.0</div>
-                </div>
-                <p className="text-sm text-gray-500 flex items-center">
-                  <span className="inline-block w-6 h-6 rounded-full bg-gray-200 mr-2"></span>
-                  {post.user?.name}
-                </p>
+              <Link href={`/posts/foods/${post.id}`} key={post.id} className="block">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{post.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center mb-2">
+                      <div className="text-yellow-500 font-bold">★{post.rating}</div>
+                      <div className="ml-2 text-sm text-gray-600">/ 5.0</div>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <div className="text-sm text-gray-500 flex items-center">
+                      <div className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center mr-2 font-medium">
+                        {post.user?.name?.charAt(0) || "?"}
+                      </div>
+                      {post.user?.name}
+                    </div>
+                  </CardFooter>
+                </Card>
               </Link>
             ))}
           </div>

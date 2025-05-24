@@ -153,14 +153,16 @@ export default function CreatePostPage() {
               placeholder="担当教員"
               className="border p-2 w-full"
             />
-            <input
-              {...register("faculty")}
-              placeholder="学部・学科"
-              className="border p-2 w-full"
-            />
+            <select {...register("faculty")} className="border p-2 w-full">
+              <option value="">学部を選択</option>
+              <option value="理工学部">理工学部</option>
+              <option value="社会情報学部">社会情報学部</option>
+              <option value="地球社会共生学部">地球社会共生学部</option>
+              <option value="コミュニティ人間科学部">コミュニティ人間科学部</option>
+            </select>
           </>
         )}
-
+　
         {/* 飲食店用フィールド */}
         {category === "food" && (
           <>
