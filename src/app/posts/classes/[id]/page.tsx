@@ -2,9 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import BackButton from "@/app/components/BackButton";
 
-type Props = { params: { id: string } };
-
-export default async function ClassPostPage({ params }: Props) {
+export default async function ClassPostPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const post = await prisma.post.findUnique({
     where: { id: id },
