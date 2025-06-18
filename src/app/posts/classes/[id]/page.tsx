@@ -3,12 +3,10 @@ import { notFound } from "next/navigation";
 import BackButton from "@/app/components/BackButton";
 
 
-export default async function ClassPostPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params;
+
+
+export default async function ClassPostPage(props: any) {
+  const { id } = props.params as { id: string };
   const post = await prisma.post.findUnique({
     where: { id },
     include: { user: true },
