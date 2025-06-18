@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(request: NextRequest) {
+  // URL から投稿IDを取得
+  const url = new URL(request.url);
+  const id = url.pathname.split("/").pop(); // 末尾のID部分を取得
 
   try {
     if (!id) {
