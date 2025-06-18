@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import BackButton from "@/app/components/BackButton";
 
-export default async function ClassListPage({ searchParams }: { searchParams: { dayOfWeek?: string; period?: string } }) {
+export default async function ClassListPage({ searchParams }) {
   const { dayOfWeek, period } = searchParams || {};
 
   const where: any = { category: "class" };
